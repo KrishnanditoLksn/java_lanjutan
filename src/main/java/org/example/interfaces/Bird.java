@@ -30,4 +30,5 @@ public class Bird extends Animal implements Trackable, FlightEnable {
     public void fly() {
         System.out.println("The bird is fly");
     }
+
 }

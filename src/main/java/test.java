@@ -2,26 +2,25 @@ import java.util.Arrays;
 
 public class test {
     public static void main(String[] args) {
-        int[] list_angka = angka(100);
-        int target = list_angka.length;
+        int[] list_angka = angka(1000000,0,999);
+        int target = 31;
 
         System.out.println(Arrays.toString(list_angka));
 
         // SEQUENTIAL SEARCH =================================================
-        long startTime = System.nanoTime();
+        double startTime = System.nanoTime();
         if (sequentialSearch(list_angka, target) == -1) {
             System.out.println("tidak ketemu");
         } else {
             System.out.println("angka " + target + " ditemukan di indeks " + sequentialSearch(list_angka, target));
         }
-        long endTime = System.nanoTime();
-        double elapsed = (endTime - startTime) / Math.pow(10, 9);
+        double endTime = System.nanoTime();
+        double elapsed = (endTime - startTime) / 1000000;
         System.out.println("sequential search : " + (elapsed) + " nano seccond ");
         //  =======================================================================================================================
 
         // BINARY SEARCH =================================================
         Arrays.sort(list_angka);
-
         startTime = System.nanoTime();
         if (binarySearch(list_angka, target) == null) {
             System.out.println("tidak ketemu");
@@ -29,7 +28,7 @@ public class test {
             System.out.println("angka " + target + " ditemukan di indeks " + binarySearch(list_angka, target));
         }
         endTime = System.nanoTime();
-        elapsed = (endTime - startTime) / Math.pow(10, 9);
+        elapsed = (endTime - startTime) / 1000000;
         System.out.println("binary search : " + (elapsed) + " nano seccond ");
     }
 
@@ -74,54 +73,53 @@ public class test {
          */
     }
 
-    public static int[] angka(int size) {
+    public static int[] angka(int size,int min,int max) {
         int[] numbers = new int[size];
         for (int i = 1; i < size + 1; i++) {
-            numbers[i - 1] = i;
-
+           numbers[i - 1] = (int) (Math.random() * (max - min) + min);
         }
         return numbers;
     }
 
-    public static void mergeSort(int[] arr, int n) {
-        if (n < 2) {
-            return;
-        }
-
-        int mid = n / 2;
-        int[] l = new int[mid];
-        int[] r = new int[n - mid];
-
-        // copy through a left array
-        System.arraycopy(arr, 0, l, 0, l.length);
-
-        //copy through a right array
-        if (n - mid >= 0) System.arraycopy(arr, mid, r, 0, n - mid);
-
-        mergeSort(l, mid);
-        mergeSort(r, n - mid);
-
-        merge(arr, l, r, mid, n - mid);
-
-    }
-
-    public static void merge(int[] a, int[] l, int[] r, int left, int right) {
-        int i = 0, j = 0, k = 0;
-
-        while (i < left && j < right) {
-            if (l[i] <= r[j]) {
-                a[k++] = l[i++];
-            } else {
-                a[k++] = r[j++];
-            }
-        }
-
-        while (i < left) {
-            a[k++] = l[i++];
-        }
-
-        while (j < right) {
-            a[k++] = r[j++];
-        }
-    }
+//    public static void mergeSort(int[] arr, int n) {
+//        if (n < 2) {
+//            return;
+//        }
+//
+//        int mid = n / 2;
+//        int[] l = new int[mid];
+//        int[] r = new int[n - mid];
+//
+//        // copy through a left array
+//        System.arraycopy(arr, 0, l, 0, l.length);
+//
+//        //copy through a right array
+//        if (n - mid >= 0) System.arraycopy(arr, mid, r, 0, n - mid);
+//
+//        mergeSort(l, mid);
+//        mergeSort(r, n - mid);
+//
+//        merge(arr, l, r, mid, n - mid);
+//
+//    }
+//
+//    public static void merge(int[] a, int[] l, int[] r, int left, int right) {
+//        int i = 0, j = 0, k = 0;
+//
+//        while (i < left && j < right) {
+//            if (l[i] <= r[j]) {
+//                a[k++] = l[i++];
+//            } else {
+//                a[k++] = r[j++];
+//            }
+//        }
+//
+//        while (i < left) {
+//            a[k++] = l[i++];
+//        }
+//
+//        while (j < right) {
+//            a[k++] = r[j++];
+//        }
+//    }
 }

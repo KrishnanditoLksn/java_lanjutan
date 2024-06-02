@@ -1,5 +1,7 @@
 package org.example.abstraction;
 
+import java.util.Objects;
+
 public class Dog extends Mammal {
 
     public Dog(String type, String size, double weight) {
@@ -22,7 +24,7 @@ public class Dog extends Mammal {
 
     @Override
     public void makeNoise() {
-        if (type == "Wolf") {
+        if (Objects.equals(type, "Wolf")) {
             System.out.println("Holing!");
         } else {
             System.out.println("Woof");
