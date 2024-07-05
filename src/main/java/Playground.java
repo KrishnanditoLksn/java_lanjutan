@@ -1,17 +1,26 @@
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
 public class Playground {
     public static void main(String[] args) {
-//        System.out.println(scoreOfString("zaz"));
-//        int[][] matriks = {{1, 2, 3}, {1, 2, 3}};
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(i);
-        }
-        System.out.println(reverseArray(list));
+////        System.out.println(scoreOfString("zaz"));
+////        int[][] matriks = {{1, 2, 3}, {1, 2, 3}};
+//        List<Integer> list = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            list.add(i);
+//        }
+//        System.out.println(reverseArray(list));
 //        System.out.println(sumMatrix(matriks));
 //        System.out.println(isPalindrome("0P"));
+
+        Boolean[] array1 = {true, true, true, false,
+                true, true, true, true,
+                true, false, true, false,
+                true, false, false, true,
+                true, true, true, true,
+                false, false, true, true};
+        System.out.println(countSheeps(array1));
     }
 
     public static int binarySearch(int[] array, int key) {
@@ -69,5 +78,18 @@ public class Playground {
             reversed.add(a.get(i));
         }
         return reversed;
+    }
+
+    public static int countSheeps(Boolean[] arrayOfSheeps) {
+        // TODO May the force be with you
+        int total = 0;
+        for (Boolean arrayOfSheep : arrayOfSheeps) {
+            if (arrayOfSheep != null) {
+                if (arrayOfSheep) {
+                    total += 1;
+                }
+            }
+        }
+        return total;
     }
 }
