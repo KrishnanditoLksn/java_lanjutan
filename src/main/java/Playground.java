@@ -1,26 +1,11 @@
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.List;
+import java.util.*;
 
 public class Playground {
     public static void main(String[] args) {
-////        System.out.println(scoreOfString("zaz"));
-////        int[][] matriks = {{1, 2, 3}, {1, 2, 3}};
-//        List<Integer> list = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            list.add(i);
-//        }
-//        System.out.println(reverseArray(list));
-//        System.out.println(sumMatrix(matriks));
-//        System.out.println(isPalindrome("0P"));
-
-        Boolean[] array1 = {true, true, true, false,
-                true, true, true, true,
-                true, false, true, false,
-                true, false, false, true,
-                true, true, true, true,
-                false, false, true, true};
-        System.out.println(countSheeps(array1));
+        int[] arrs = {2, 7, 11, 15};
+        int[] c = {1, 2, 3, 1, 2, 3};
+        int k = 2;
+//        System.out.println(containsNearbyDuplicate(c, k));
     }
 
     public static int binarySearch(int[] array, int key) {
@@ -84,12 +69,76 @@ public class Playground {
         // TODO May the force be with you
         int total = 0;
         for (Boolean arrayOfSheep : arrayOfSheeps) {
-            if (arrayOfSheep != null) {
-                if (arrayOfSheep) {
-                    total += 1;
-                }
+            if (arrayOfSheep != null && arrayOfSheep) {
+                total += 1;
             }
         }
         return total;
     }
+
+    public static int countPairs(List<Integer> nums, int target) {
+        int n = nums.size();
+        int total = 0;
+        //start from 0 indexed
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (nums.get(i) + nums.get(j) < target) {
+                    total += 1;
+                }
+            }
+        }
+
+        return total;
+    }
+
+    public static int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            //store the complement of the current number
+            int complement = target - nums[i];
+            //check if the complement is in the hashmap
+            if (hashMap.containsKey(complement)) {
+                //return array of a result if found
+                return new int[]{hashMap.get(complement), i};
+            }
+            //put the current number and its index in the hashmap
+            hashMap.put(nums[i], i);
+        }
+        return null;
+    }
+
+    public static int[] shuffle(int[] nums, int n) {
+        int[] result = new int[nums.length];
+        int l = 0;
+        int r = n;
+        for (int i = 0; i < n; i++) {
+            result[l] = nums[i];
+            result[l + 1] = nums[r];
+            l += 2;
+            r++;
+        }
+        return result;
+    }
+
+    public static boolean findDuplicate(int[] nums) {
+        Set<Integer> ints = new HashSet<>();
+        for (int num : nums) {
+            ints.add(num);
+        }
+        return nums.length != ints.size();
+    }
+
+//    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+//        Set<Integer> integerSet = new HashSet<>();
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = i; j < nums.length; j++) {
+//                integerSet.add(nums[j]);
+//                if (nums[i] == nums[j] && Math.abs(i - j) <= k) {
+//                    return true;
+//                }
+//            }
+//        }
+//
+//        return false;
+//    }
 }
