@@ -3,9 +3,10 @@ import java.util.*;
 public class Playground {
     public static void main(String[] args) {
         int[] arrs = {2, 7, 11, 15};
-        int[] c = {1, 2, 3, 1, 2, 3};
-        int k = 2;
-//        System.out.println(containsNearbyDuplicate(c, k));
+        int[] c = {2, 0, 2, 1, 1, 0};
+        int k = 1;
+        sortColors(c);
+        System.out.println(Arrays.toString(c));
     }
 
     public static int binarySearch(int[] array, int key) {
@@ -121,24 +122,84 @@ public class Playground {
     }
 
     public static boolean findDuplicate(int[] nums) {
-        Set<Integer> ints = new HashSet<>();
-        for (int num : nums) {
-            ints.add(num);
+        Map<Integer, Integer> ints = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            ints.put(nums[i], i);
         }
         return nums.length != ints.size();
     }
 
-//    public static boolean containsNearbyDuplicate(int[] nums, int k) {
-//        Set<Integer> integerSet = new HashSet<>();
-//        for (int i = 0; i < nums.length; i++) {
-//            for (int j = i; j < nums.length; j++) {
-//                integerSet.add(nums[j]);
-//                if (nums[i] == nums[j] && Math.abs(i - j) <= k) {
-//                    return true;
-//                }
-//            }
-//        }
-//
-//        return false;
-//    }
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> integerSet = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (integerSet.containsKey(nums[i]) && Math.abs(i - integerSet.get(nums[i])) <= k) {
+                return true;
+            }
+            System.out.println("Array Element:" + nums[i]);
+            System.out.println("Index at : " + i);
+            integerSet.put(nums[i], i);
+            System.out.println(integerSet.keySet());
+        }
+        return false;
+    }
+
+    public static boolean containsBruteForceNearbyDuplicate(int[] nums, int k) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] == nums[j] && Math.abs(i - j) <= k) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static int majorityElement(int[] nums) {
+        int mayo = nums.length / 2;
+        for (int i : nums) {
+            int count = 0;
+            for (int j : nums) {
+                if (i == j) {
+                    count += 1;
+                }
+            }
+            if (count > mayo) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /*
+    Algo by favtutor
+
+        1. Initialize low = 0, mid = 0, and high = n-1, where n is the size of the array.
+        2. While mid <= high, repeat steps 3-5.
+        3. If the element at index mid is 0, swap it with the element at index low, increment low and mid by 1.
+        4. If the element at index mid is 1, leave it in place, and increment mid by 1.
+        5. If the element at index mid is 2, swap it with the element at index high, decrement high by 1.
+        6. Repeat steps 2-5 until mid exceeds high.
+     */
+    public static void sortColors(int[] nums) {
+        int low = 0;
+        int mid = 0;
+        int high = nums.length - 1;
+        int temp;
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                temp = nums[low];
+                nums[low] = nums[mid];
+                nums[mid] = temp;
+                low++;
+                mid++;
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else if (nums[mid] == 2) {
+                temp = nums[high];
+                nums[high] = nums[mid];
+                nums[mid] = temp;
+                high--;
+            }
+        }
+    }
 }
