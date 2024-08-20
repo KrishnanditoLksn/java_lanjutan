@@ -1,12 +1,17 @@
 import java.util.*;
 
+import static org.example.latihan_toki.Nilai_Kalimat_Matematika_2.solusi2;
+
 public class Playground {
     public static void main(String[] args) {
-        int[] arrs = {2, 7, 11, 15};
-        int[] c = {2, 0, 2, 1, 1, 0};
-        int k = 1;
-        sortColors(c);
-        System.out.println(Arrays.toString(c));
+        int[] arrs = {1, 2, 3, 4};
+//        int[] c = {2, 0, 2, 1, 1, 0};
+//        int k = 1;
+//        sortColors(c);
+//        System.out.println(Arrays.toString(c));
+
+//        solusi2(-100, '<', -50);
+        System.out.println(Arrays.toString(runningSum(arrs)));
     }
 
     public static int binarySearch(int[] array, int key) {
@@ -201,5 +206,14 @@ public class Playground {
                 high--;
             }
         }
+    }
+
+    public static int[] runningSum(int[] nums) {
+        int[] res = new int[nums.length];
+        res[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            res[i] = res[i - 1] + nums[i];
+        }
+        return res;
     }
 }
