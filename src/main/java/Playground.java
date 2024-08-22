@@ -11,7 +11,8 @@ public class Playground {
 //        System.out.println(Arrays.toString(c));
 
 //        solusi2(-100, '<', -50);
-        System.out.println(Arrays.toString(runningSum(arrs)));
+//        System.out.println(Arrays.toString(runningSum(arrs)));
+        System.out.println(isValid("([)]"));
     }
 
     public static int binarySearch(int[] array, int key) {
@@ -235,5 +236,23 @@ public class Playground {
             leftsum += nums[i];
         }
         return -1;
+    }
+
+    public static boolean isValid(String s) {
+        Stack<Character> characterStack = new Stack<>();
+        for (char stackies : s.toCharArray()) {
+            if (stackies == '(' || stackies == '[' || stackies == '{') {
+                characterStack.push(stackies);
+            } else {
+                if (
+                        (stackies == ')' && characterStack.peek() != '(') ||
+                                (stackies == ']' && characterStack.peek() != '[') ||
+                                (stackies == '}' && characterStack.peek() != '{')) {
+                    return false;
+                }
+                characterStack.pop();
+            }
+        }
+        return characterStack.isEmpty();
     }
 }
