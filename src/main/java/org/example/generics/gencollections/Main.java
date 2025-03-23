@@ -1,6 +1,10 @@
 package org.example.generics.gencollections;
 
-import org.example.generics.kotlins.BaseballTeam;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Random;
 
 interface Player {
     String name();
@@ -66,6 +70,35 @@ public class Main {
                 new River("Glowskus", "10.2321,-11.132")
         );
         riverLayer.renderLayer();
+
+
+        Integer five = 5;
+        Integer[] other = {0, 2, 1, 1};
+
+        for (Integer i : other) {
+            int val = five.compareTo(i);
+            System.out.printf("%d %s %d: compareTo=%d%n", five, (
+                    val == 0 ? "==" : (val < 0) ? "<" : ">"
+            ), i, val);
+        }
+
+        Student student = new Student(
+                "Tim"
+        );
+
+        Student[] students = {new Student("Joko"), new Student("Budi") , new Student("Adri")};
+
+        Arrays.sort(students);
+        System.out.println(Arrays.toString(students));
+
+
+        System.out.println("Result" + student.compareTo(new Student("Tim")));
+
+//        System.out.println("Result = " + student.compareTo(students));
+
+        Comparator<Student> gpaSorter = new StudentGPAComparator();
+        Arrays.sort(students, gpaSorter.reversed());
+        System.out.println(Arrays.toString(students));
     }
 
 //    public static void scoreResult(BaseballTeam team1, int t1_score,
@@ -91,4 +124,41 @@ public class Main {
 //        team2.setScore(t2_score, t1_score);
 //        System.out.printf("%s %s %s %n", team1, message, team2);
 //    }
+}
+
+class StudentGPAComparator implements Comparator<Student> {
+
+    @Override
+    public int compare(Student o1, Student o2) {
+        return (o1.gpa + o1.name).compareTo(o2.gpa + o2.name);
+    }
+}
+
+
+class Student implements Comparable<Student> {
+    private static int LAST_ID = 1000;
+    private static Random random = new Random();
+    protected String name;
+    protected double gpa;
+    private int id;
+
+
+    public Student(
+            String name
+    ) {
+        this.name = name;
+        id = LAST_ID++;
+        gpa = random.nextDouble(1.0, 4.0);
+    }
+
+    @Override
+    public String toString() {
+        return "%d - %s (%.2f)".formatted(id, name, gpa);
+    }
+
+    @Override
+    public int compareTo(@NotNull Student o) {
+
+        return Integer.valueOf(id).compareTo(Integer.valueOf(o.id));
+    }
 }
