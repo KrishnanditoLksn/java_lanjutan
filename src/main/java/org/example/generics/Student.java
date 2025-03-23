@@ -2,6 +2,7 @@ package org.example.generics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class Student {
@@ -40,19 +41,46 @@ class Main {
             students.add(new Student());
         }
         students.add(new MobileStudent());
-        printList(students);
+        printMoreList(students);
 
         List<MobileStudent> mobileStudents = new ArrayList<>();
         for (int i = 0; i < c; i++) {
             mobileStudents.add(new MobileStudent());
         }
 
-        printList(mobileStudents);
+        printMoreList(mobileStudents);
+
+        testList(new ArrayList<Integer>(List.of(1, 2, 3)));
+        testList(new ArrayList<String>(List.of("Joko", "Aghad")));
     }
 
-    public static <T> void printList(List<T> students) {
+//    public static <T extends Student> void printList(List<T> students) {
+//        for (var student : students) {
+//            System.out.println(student.getYearStarted() + " : " + student);
+//        }
+//        System.out.println();
+//    }
+
+    public static void printMoreList(List<? extends Student> students) {
         for (var student : students) {
             System.out.println(student);
+        }
+        System.out.println();
+    }
+
+    //    public static void testList(List<String> students) {
+//        for (var student : students) {
+//            System.out.println(student.toUpperCase(Locale.ROOT));
+//        }
+//        System.out.println();
+//    }
+    public static void testList(List<?> students) {
+        for (var student : students) {
+            if (student instanceof String s) {
+                System.out.println("String:" + s.toUpperCase(Locale.ROOT));
+            } else if (student instanceof Integer i) {
+                System.out.println("Integer:" + i.floatValue());
+            }
         }
         System.out.println();
     }
