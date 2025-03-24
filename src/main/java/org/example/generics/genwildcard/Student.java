@@ -1,11 +1,21 @@
-package org.example.generics;
+package org.example.generics.genwildcard;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import org.jetbrains.annotations.NotNull;
 
-public class Student {
+import java.util.*;
+
+record Employee(String name) implements QueryItem {
+
+    @Override
+    public boolean matchFieldValue(String fieldName, String value) {
+        return false;
+    }
+}
+
+
+public class Student implements QueryItem, Comparable<Student> {
+    private static int incrementId = 1;
+    private int id;
     private String name;
     private String course;
     private int yearStarted;
@@ -19,6 +29,7 @@ public class Student {
         int lastNameIndex = random.nextInt(65, 91);
         name = firstNames[random.nextInt(5)] + " " + (char) lastNameIndex;
         course = courses[random.nextInt(3)];
+        id = incrementId++;
         yearStarted = random.nextInt(2022, 2025);
     }
 
@@ -30,6 +41,23 @@ public class Student {
 
     public int getYearStarted() {
         return yearStarted;
+    }
+
+    @Override
+    public boolean matchFieldValue(String fieldName, String value) {
+
+        String fName = fieldName.toUpperCase(Locale.ROOT);
+        return switch (fName) {
+            case "NAME" -> name.equalsIgnoreCase(value);
+            case "COURSE" -> course.equalsIgnoreCase(value);
+            case "YEARSTARTED" -> yearStarted == (Integer.parseInt(value));
+            default -> false;
+        };
+    }
+
+    @Override
+    public int compareTo(@NotNull Student o) {
+        return Integer.compare(id, o.id);
     }
 }
 
@@ -52,6 +80,31 @@ class Main {
 
         testList(new ArrayList<Integer>(List.of(1, 2, 3)));
         testList(new ArrayList<String>(List.of("Joko", "Aghad")));
+
+
+        var queryList = new QueryList<>(mobileStudents);
+        var matches = queryList.getMatches("Course", "Py");
+        printMoreList(matches);
+
+
+        var student2 = QueryList.getMatches(students, "YearStarted", "2021");
+        printMoreList(student2);
+//
+//        System.out.println("MOBILE");
+//        var mobileStudent3 = QueryList.getMatches(mobileStudents, "Percent", "1.2");
+//        printMoreList(mobileStudent3);
+
+        QueryList<MobileStudent> mobileStudentQueryList = new QueryList<>();
+
+        for (int i = 0; i < 5; i++) {
+            mobileStudentQueryList.add(new MobileStudent());
+        }
+        mobileStudentQueryList.sort(Comparator.naturalOrder());
+
+        var mobileStudent4 = QueryList.getMatches(mobileStudentQueryList, "Percent", "2.1");
+        printMoreList(mobileStudent4);
+        //CANT DO IT
+//        QueryList<Employee> employeeQueryList = new QueryList<Employee>();
     }
 
 //    public static <T extends Student> void printList(List<T> students) {
