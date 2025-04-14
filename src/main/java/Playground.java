@@ -1,6 +1,5 @@
 import java.util.*;
 
-import static org.example.latihan_toki.Nilai_Kalimat_Matematika_2.solusi2;
 
 public class Playground {
     public static void main(String[] args) {
@@ -13,6 +12,9 @@ public class Playground {
 //        solusi2(-100, '<', -50);
 //        System.out.println(Arrays.toString(runningSum(arrs)));
         System.out.println(isValid("([)]"));
+
+        int[] arr = {0, 1, 2, 2, 3, 0, 4, 2};
+        System.out.println(removeElement(arr, 2));
     }
 
     public static int binarySearch(int[] array, int key) {
@@ -218,6 +220,28 @@ public class Playground {
         return res;
     }
 
+    public static int removeDuplicates(int[] nums) {
+        int k = 0;
+        for (int currentNum : nums) {
+            if (k == 0 || currentNum != nums[k - 1]) {
+                nums[k++] = currentNum;
+            }
+        }
+
+        return k;
+    }
+
+    public static int removeElement(int[] nums, int val) {
+        int k = 0;
+        for (int currentNum : nums) {
+            if (currentNum != val) {
+                nums[k] = currentNum;
+                k++;
+            }
+        }
+        return k;
+    }
+
     public static int pivotIndex(int[] nums) {
         int totalSum = 0;
         int leftsum = 0;
@@ -255,6 +279,7 @@ public class Playground {
         }
         return characterStack.isEmpty();
     }
+
 
     public static int minimumOperations(int[] nums) {
         int res = 0;
