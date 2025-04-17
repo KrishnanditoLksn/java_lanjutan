@@ -1,5 +1,6 @@
 package org.example.innerclass;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 
 public class Employee {
@@ -33,6 +34,10 @@ public class Employee {
 
     }
 
+    public int getYearsWorked() {
+        return getYears() - LocalDate.now().getYear();
+    }
+
     public Employee(int employeeId, String name, int yearStarted) {
         this.employeeId = employeeId;
         this.name = name;
@@ -41,6 +46,10 @@ public class Employee {
 
     public String getName() {
         return name;
+    }
+
+    public int getYears() {
+        return yearStarted;
     }
 
     @Override

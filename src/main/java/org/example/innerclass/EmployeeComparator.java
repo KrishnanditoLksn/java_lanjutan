@@ -46,7 +46,7 @@ class Main {
 
 
             public DecoratedEmployee(String pigLatinName, Employee originalInstance) {
-                this.pigLatinName = pigLatinName + lastName;
+                this.pigLatinName = pigLatinName;
                 this.originalInstance = originalInstance;
             }
 

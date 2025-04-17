@@ -1,10 +1,11 @@
 package org.example.generics.gencollections;
 
+import org.example.innerclass.Employee;
+import org.example.innerclass.StoreEmployee;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Random;
+import java.time.LocalDate;
+import java.util.*;
 
 interface Player {
     String name();
@@ -14,7 +15,6 @@ record FootballPlayer(String name, String position) implements Player {
 }
 
 public class Main {
-
     public static void main(String[] args) {
 
 //        var abc = new Affiliation("city", "YK", "ID");
@@ -86,7 +86,7 @@ public class Main {
                 "Tim"
         );
 
-        Student[] students = {new Student("Joko"), new Student("Budi") , new Student("Adri")};
+        Student[] students = {new Student("Joko"), new Student("Budi"), new Student("Adri")};
 
         Arrays.sort(students);
         System.out.println(Arrays.toString(students));
@@ -99,7 +99,127 @@ public class Main {
         Comparator<Student> gpaSorter = new StudentGPAComparator();
         Arrays.sort(students, gpaSorter.reversed());
         System.out.println(Arrays.toString(students));
+
+        //Anonymous class
+        var c4 = new Comparator<StoreEmployee>() {
+            @Override
+            public int compare(StoreEmployee o1, StoreEmployee o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+
+        var c5 = new Comparator<Employee>() {
+            @Override
+            public int compare(Employee o1, Employee o2) {
+                return o1.getYearsWorked() - o2.getYearsWorked();
+            }
+        };
+        List<StoreEmployee> storeEmployees = new ArrayList<>(List.of(
+                new StoreEmployee(1001, "Dito", 2012, "Target"),
+                new StoreEmployee(1002, "Adit", 2013, "Walmart")
+        ));
+
+
+        //Local class
+
+        class NameSort<T> implements Comparator<StoreEmployee> {
+
+            @Override
+            public int compare(StoreEmployee o1, StoreEmployee o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        }
+
+
+        class EmployeeSort<T> implements Comparator<Employee> {
+
+            @Override
+            public int compare(Employee o1, Employee o2) {
+                return o1.getYearsWorked() - o2.getYearsWorked();
+            }
+        }
+
+
+        var c0 = new Employee.EmployeeComparator<StoreEmployee>();
+        var c1 = new Employee.EmployeeComparator<StoreEmployee>();
+        var c2 = new StoreEmployee().new StoreComparator<>();
+        var c3 = new NameSort<StoreEmployee>();
+        List<NewEmployees> employees = new ArrayList<>(List.of(
+                new NewEmployees("Joko", "Vito", "23-12-2015"),
+                new NewEmployees("Adri", "Divul", "1-1-1990"),
+                new NewEmployees("Tio", "Pras", "3-12-2023"),
+                new NewEmployees("Dion", "Yulis", "1-1-1999")
+        ));
+
+//        sortIt(storeEmployees, c0);
+//        sortIt(storeEmployees, c1);
+//        sortIt(storeEmployees, c2);
+//        sortIt(storeEmployees, c3);
+//        sortIt(storeEmployees, c4);
+        sortOrderedList(employees, "name");
+
     }
+
+
+    public static <T> void sortIt(List<T> list, Comparator<? super T> comparator) {
+        System.out.println("Sorting using Comparator" + comparator.toString());
+        list.sort(comparator);
+        for (var employee : list) {
+            System.out.println(employee);
+        }
+    }
+
+    public static <T> void sortOrderedList(List<NewEmployees> list, String sortField) {
+        int currentYear = LocalDate.now().getYear();
+
+        class TheEmployee {
+            NewEmployees employee;
+            int yearsWorked;
+            String fullName;
+
+            public TheEmployee(NewEmployees containEmployee) {
+                this.employee = containEmployee;
+                yearsWorked = currentYear - Integer.parseInt(
+                        containEmployee.hireDate().split("-")[2]);
+                fullName = String.join(" ",
+                        containEmployee.fName(),
+                        containEmployee.lName()
+                );
+            }
+
+            @Override
+            public String toString() {
+                return "%s has been employee for %d years".formatted(
+                        fullName, yearsWorked
+                );
+            }
+
+        }
+
+        List<TheEmployee> listEmp = new ArrayList<>();
+        for (NewEmployees employees : list) {
+            listEmp.add(new TheEmployee(employees));
+        }
+
+        var comparator = new Comparator<TheEmployee>() {
+
+            @Override
+            public int compare(TheEmployee o1, TheEmployee o2) {
+                if (sortField.equals("name")) {
+                    return o1.fullName.compareTo(o2.fullName);
+                }
+                return o1.yearsWorked - o2.yearsWorked;
+            }
+        };
+
+        listEmp.sort(comparator);
+
+        for (TheEmployee theEmployee : listEmp) {
+            System.out.println(theEmployee);
+        }
+    }
+
 
 //    public static void scoreResult(BaseballTeam team1, int t1_score,
 //                                   BaseballTeam team2, int t2_score) {
