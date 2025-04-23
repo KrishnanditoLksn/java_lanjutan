@@ -2,6 +2,7 @@ package org.example.lambda;
 
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public class Main {
     public static void main(String[] args) {
@@ -112,13 +113,43 @@ public class Main {
         peoples.forEach(System.out::println);
 
 
-        peoples.replaceAll(s -> s.charAt(0) + " - "  + s.toUpperCase(Locale.ROOT));
+        peoples.replaceAll(s -> s.charAt(0) + " - " + s.toUpperCase(Locale.ROOT));
+
+        peoples.forEach(System.out::println);
+
+        String[] emptyStrings = new String[10];
+        Arrays.setAll(emptyStrings, (i) -> " " + (i + 1) + "." + switch (i) {
+            case 0 -> "one";
+            case 1 -> "two";
+            case 2 -> "three";
+            default -> "";
+        });
+        System.out.println(Arrays.toString(emptyStrings));
+
+        String[] names = {"Ann", "Bob", "Curul", "Curut"};
+        String[] random = randomSelectedValues(15, names, () -> new Random().nextInt(0, names.length));
+
+        System.out.println(Arrays.toString(random));
     }
 
     public static <T> T calculator(Operation<T> function, T value1, T value2) {
         T result = function.operate(value1, value2);
         System.out.println("Result of Operation" + result);
         return result;
+    }
+
+
+    /**
+     * Supplier doesn't have argument passed just set lambda param
+     */
+    public static String[] randomSelectedValues(int count, String[] values, Supplier<Integer> s) {
+        String[] selectedValues = new String[count];
+
+        for (int i = 0; i < count; i++) {
+            selectedValues[i] = values[s.get()];
+
+        }
+        return selectedValues;
     }
 
     /**
